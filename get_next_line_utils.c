@@ -6,18 +6,11 @@
 /*   By: jpluta <jpluta@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:23:43 by jpluta            #+#    #+#             */
-/*   Updated: 2024/08/01 17:41:10 by jpluta           ###   ########.fr       */
+/*   Updated: 2024/08/03 17:51:14 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*ft_strdup(const char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-char	*ft_strchr(const char *s, int c);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
-size_t	ft_strlen(const char *s);
 
 char	*ft_strdup(const char *s)
 {

@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:23:35 by jpluta            #+#    #+#             */
-/*   Updated: 2024/07/31 19:05:10 by jpluta           ###   ########.fr       */
+/*   Updated: 2024/08/04 17:13:19 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@
 #include <fcntl.h>
 
 char	*get_next_line(int fd);
+size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 char	*ft_strchr(const char *s, int c);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
+char	*check_remainder(char *remainder, char *line, char *temp_line);
 
 #endif

@@ -1,3 +1,2 @@
-pop
 123
-ahoj
+ahoj ako sa mas
