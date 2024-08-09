@@ -6,29 +6,29 @@
 /*   By: jpluta <jpluta@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:23:35 by jpluta            #+#    #+#             */
-/*   Updated: 2024/08/04 17:13:19 by jpluta           ###   ########.fr       */
+/*   Updated: 2024/08/09 21:05:16 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-#endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1000
+# endif
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+char	*ft_strdup(char *s1);
+char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
-char	*check_remainder(char *remainder, char *line, char *temp_line);
+char	*read_till_newline(int fd, char **remainder);
+char	*get_remainder(char *buffer);
+char	*extract_line(char *buffer, char *line);
 
 #endif
