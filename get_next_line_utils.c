@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:23:43 by jpluta            #+#    #+#             */
-/*   Updated: 2024/08/09 17:45:31 by jpluta           ###   ########.fr       */
+/*   Updated: 2024/08/10 13:21:40 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,6 @@ char	*ft_strdup(char *s1)
 	}
 	dest[i] = 0;
 	return (dest);
-}
-
-char	*ft_substr(char *s, unsigned int start, size_t len)
-{
-	size_t i;
-	char *str;
-
-	if (!s)
-		return (NULL);
-	if (start > ft_strlen(s))
-		return (malloc(1));
-	if (len > ft_strlen(s + start))
-		len = ft_strlen(s + start);
-	str = malloc((len + 1) * sizeof(char));
-	if (!str)
-		return (NULL);
-	i = 0;
-	while (i < len)
-	{
-		str[i] = s[start + i];
-		i++;
-	}
-	str[i] = 0;
-	return (str);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
@@ -91,4 +67,40 @@ char	*ft_strchr(const char *s, int c)
 	if (a == '\0')
 		return ((char *)&s[i]);
 	return (0);
+}
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return i;
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+
+char	*ft_substr(char *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	char	*str;
+
+	if (!s)
+		return (NULL);
+	if (start > ft_strlen(s))
+		return (malloc(1));
+	if (len > ft_strlen(s + start))
+		len = ft_strlen(s + start);
+	str = malloc((len + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		str[i] = s[start + i];
+		i++;
+	}
+	str[i] = 0;
+	return (str);
 }
