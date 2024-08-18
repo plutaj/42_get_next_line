@@ -6,38 +6,52 @@
 /*   By: jpluta <jpluta@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:23:40 by jpluta            #+#    #+#             */
-/*   Updated: 2024/08/18 16:28:56 by jpluta           ###   ########.fr       */
+/*   Updated: 2024/08/18 17:30:32 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*process_remainder(char **remainder)
+{
+	char	*line;
+	char	*newline_pos;
+	char	*new_remainder;
+
+	line = NULL;
+	newline_pos = NULL;
+	new_remainder = NULL;
+	line = extract_line(*remainder, line);
+	newline_pos = ft_strchr(*remainder, '\n');
+	if (newline_pos)
+	{
+		new_remainder = ft_strdup(newline_pos + 1);
+		free(*remainder);
+		*remainder = new_remainder;
+		return (line);
+	}
+	free(*remainder);
+	*remainder = NULL;
+	return (line);
+}
 
 char	*read_till_newline(int fd, char **remainder)
 {
 	char	*buffer;
 	char	*line;
 	ssize_t	bytes_read;
-	char	*new_remainder;
-	char	*newline_pos;
 
 	line = NULL;
 	buffer = (char *)malloc(BUFFER_SIZE + 1);
-	if (!buffer)
-		return (NULL);
 	if (*remainder)
 	{
-		line = extract_line(*remainder, line);
-		newline_pos = ft_strchr(*remainder, '\n');
-		if (newline_pos)
+		if (ft_strchr(*remainder, '\n'))
 		{
-			new_remainder = ft_strdup(newline_pos + 1);
-			free(*remainder);
-			*remainder = new_remainder;
-			free(buffer);
+			line = process_remainder(remainder);
+			free (buffer);
 			return (line);
 		}
-		free(*remainder);
-		*remainder = NULL;
+		line = process_remainder(remainder);
 	}
 	while ((bytes_read = read(fd, buffer, BUFFER_SIZE)) > 0)
 	{
@@ -49,21 +63,17 @@ char	*read_till_newline(int fd, char **remainder)
 			break ;
 		}
 	}
+	free(buffer);
 	if (bytes_read == -1)
-	{
-		free(buffer);
 		return (NULL);
-	}
 	if (bytes_read == 0)
 	{
 		if (line && *line == '\0')
 		{
 			free(line);
-			free(buffer);
 			return (NULL);
 		}
 	}
-	free(buffer);
 	return (line);
 }
 

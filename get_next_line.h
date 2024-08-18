@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:23:35 by jpluta            #+#    #+#             */
-/*   Updated: 2024/08/18 16:13:21 by jpluta           ###   ########.fr       */
+/*   Updated: 2024/08/18 17:26:25 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ char	*read_till_newline(int fd, char **remainder);
 char	*get_remainder(char *buffer);
 char	*extract_line(char *buffer, char *line);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
+char	*process_remainder(char **remainder);
 
 #endif
