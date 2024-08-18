@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:23:40 by jpluta            #+#    #+#             */
-/*   Updated: 2024/08/12 19:42:17 by jpluta           ###   ########.fr       */
+/*   Updated: 2024/08/18 16:28:56 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,53 +14,61 @@
 
 char	*read_till_newline(int fd, char **remainder)
 {
-	char		buffer[BUFFER_SIZE + 1];
-	char		*line;
-	ssize_t		bytes_read;
-	char		*new_remainder;
+	char	*buffer;
+	char	*line;
+	ssize_t	bytes_read;
+	char	*new_remainder;
+	char	*newline_pos;
 
 	line = NULL;
+	buffer = (char *)malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
 	if (*remainder)
 	{
-		line = extract_line(*remainder, line); // 55\0
-		if (ft_strchr(*remainder, '\n'))
+		line = extract_line(*remainder, line);
+		newline_pos = ft_strchr(*remainder, '\n');
+		if (newline_pos)
 		{
-			new_remainder = get_remainder(*remainder);
+			new_remainder = ft_strdup(newline_pos + 1);
 			free(*remainder);
 			*remainder = new_remainder;
+			free(buffer);
 			return (line);
 		}
 		free(*remainder);
 		*remainder = NULL;
 	}
-	bytes_read = read(fd, buffer, BUFFER_SIZE); // buffer =  \ndopa\0
-	if (bytes_read == -1 || BUFFER_SIZE <= 0)
+	while ((bytes_read = read(fd, buffer, BUFFER_SIZE)) > 0)
+	{
+		buffer[bytes_read] = '\0';
+		line = extract_line(buffer, line);
+		if (ft_strchr(buffer, '\n'))
+		{
+			*remainder = get_remainder(buffer);
+			break ;
+		}
+	}
+	if (bytes_read == -1)
+	{
+		free(buffer);
 		return (NULL);
+	}
 	if (bytes_read == 0)
 	{
-		free(line);
-		return (NULL);
-	}
-	buffer[bytes_read] = '\0';
-	while (!ft_strchr(buffer, '\n')) // oa\n55\0
-	{
-		line = extract_line(buffer, line);
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read == -1 || BUFFER_SIZE <= 0)
+		if (line && *line == '\0')
+		{
+			free(line);
+			free(buffer);
 			return (NULL);
-		if (bytes_read == 0)
-			return (line);
-		buffer[bytes_read] = '\0';
+		}
 	}
-	line = extract_line(buffer, line); // line = 55\ndopa\0
-	if (ft_strchr(buffer, '\n'))  // buffer =  \ndopa\0
-		*remainder = get_remainder(buffer); // remainder = dopa\0
+	free(buffer);
 	return (line);
 }
 
 char	*get_remainder(char *buffer)
 {
-	// printf("%s", buffer);
 	char	*newline_pos;
 	char	*rest;
 
@@ -74,8 +82,8 @@ char	*get_remainder(char *buffer)
 	return (NULL);
 }
 
-char	*extract_line(char *buffer, char *line) //   buffer =  \ndopa\0
-{												//   line	= 55\0
+char	*extract_line(char *buffer, char *line)
+{
 	char	*newline_pos;
 	char	*temp_line;
 	char	*temp_buffer;
@@ -83,13 +91,13 @@ char	*extract_line(char *buffer, char *line) //   buffer =  \ndopa\0
 	temp_line = NULL;
 	if (!line)
 		line = ft_strdup("");
-	temp_buffer = ft_strdup(buffer);  // temp_buffer = \ndopa\0
-	newline_pos = ft_strchr(temp_buffer, '\n');   // pointer na index 0
-	if (newline_pos && ((*temp_buffer != '\n') || BUFFER_SIZE > 1))
-		*(newline_pos + 1) = '\0'; // toto nezbehne
-	temp_line = ft_strdup(line); // 55\0
+	temp_buffer = ft_strdup(buffer);
+	newline_pos = ft_strchr(temp_buffer, '\n');
+	if (newline_pos)
+		*(newline_pos + 1) = '\0';
+	temp_line = ft_strdup(line);
 	free(line);
-	line = ft_strjoin(temp_line, temp_buffer); // maybe switch params // line = 55\ndopa\0
+	line = ft_strjoin(temp_line, temp_buffer);
 	free(temp_line);
 	free(temp_buffer);
 	return (line);
@@ -101,20 +109,29 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	line = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	line = read_till_newline(fd, &remainder);
 	return (line);
 }
 
-int	main(void)
-{
-	int	fd;
+// int	main(void)
+// {
+// 	int	fd;
 
-	fd = open("empty.txt", O_RDONLY);
-	printf("1:%s", get_next_line(fd));
-	printf("2:%s", get_next_line(fd));
-	printf("3:%s", get_next_line(fd));
-	printf("4:%s", get_next_line(fd));
-	printf("5:%s", get_next_line(fd));
-	printf("6:%s", get_next_line(fd));
-	return (0);
-}
+// 	fd = open("empty.txt", O_RDONLY);
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	// printf("7:%s", get_next_line(fd));
+// 	// printf("8:%s", get_next_line(fd));
+// 	// printf("9:%s", get_next_line(fd));
+// 	// printf("10:%s", get_next_line(fd));
+// 	// printf("11:%s", get_next_line(fd));
+// 	// printf("12:%s", get_next_line(fd));
+// 	// printf("13:%s", get_next_line(fd));
+// 	return (0);
+// }
