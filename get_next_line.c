@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:23:40 by jpluta            #+#    #+#             */
-/*   Updated: 2024/08/18 17:30:32 by jpluta           ###   ########.fr       */
+/*   Updated: 2024/08/20 18:18:50 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,15 +127,25 @@ char	*get_next_line(int fd)
 
 // int	main(void)
 // {
-// 	int	fd;
+// 	int		fd;
+// 	char	*s;
 
+// 	s = NULL;
 // 	fd = open("empty.txt", O_RDONLY);
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
+// 	s = get_next_line(fd);
+// 	printf("%s", s);
+// 	free(s);
+// 	s = get_next_line(fd);
+// 	printf("%s", s);
+// 	free(s);
+// 	s = get_next_line(fd);
+// 	printf("%s", s);
+// 	free(s);
+// 	s = get_next_line(fd);
+// 	printf("%s", s);
+// 	free(s);
+
+// 	close(fd);
 // 	// printf("7:%s", get_next_line(fd));
 // 	// printf("8:%s", get_next_line(fd));
 // 	// printf("9:%s", get_next_line(fd));

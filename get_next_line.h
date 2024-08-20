@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:23:35 by jpluta            #+#    #+#             */
-/*   Updated: 2024/08/18 17:26:25 by jpluta           ###   ########.fr       */
+/*   Updated: 2024/08/20 18:34:35 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <fcntl.h>
 
 char	*get_next_line(int fd);
-size_t	ft_strlen(const char *s);
 char	*ft_strdup(char *s1);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strchr(const char *s, int c);

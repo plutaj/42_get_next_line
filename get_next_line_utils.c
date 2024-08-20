@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:23:43 by jpluta            #+#    #+#             */
-/*   Updated: 2024/08/18 16:26:59 by jpluta           ###   ########.fr       */
+/*   Updated: 2024/08/20 18:33:52 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,18 @@ char	*ft_strdup(char *s1)
 {
 	char			*dest;
 	unsigned int	i;
+	size_t			s1_len;
 
+	s1_len = 0;
 	if (!s1 || s1 == NULL)
 		return (NULL);
-	dest = (char *)malloc(ft_strlen(s1) + 1);
+	while (*s1 != '\0')
+	{
+		s1_len++;
+		s1++;
+	}
+	s1 = s1 - s1_len;
+	dest = (char *)malloc(s1_len + 1);
 	if (!dest)
 		return (NULL);
 	i = 0;
@@ -60,9 +68,15 @@ char	*ft_strjoin(char *s1, char *s2)
 	len1 = 0;
 	len2 = 0;
 	if (s1)
-		len1 = ft_strlen(s1);
-	if (s2)
-		len2 = ft_strlen(s2);
+	{
+		while (s1[len1] != '\0')
+			len1++;
+	}
+	if (s1)
+	{
+		while (s2[len2] != '\0')
+			len2++;
+	}
 	joined = (char *)malloc(len1 + len2 + 1);
 	if (!joined)
 		return (NULL);
@@ -89,16 +103,4 @@ char	*ft_strchr(const char *s, int c)
 	if (a == '\0')
 		return ((char *)&s[i]);
 	return (NULL);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	if (!s)
-		return (i);
-	while (s[i] != '\0')
-		i++;
-	return (i);
 }
