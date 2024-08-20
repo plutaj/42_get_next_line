@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:23:40 by jpluta            #+#    #+#             */
-/*   Updated: 2024/08/20 18:18:50 by jpluta           ###   ########.fr       */
+/*   Updated: 2024/08/20 18:53:22 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char	*read_till_newline(int fd, char **remainder)
 {
 	char	*buffer;
 	char	*line;
-	ssize_t	bytes_read;
 
 	line = NULL;
 	buffer = (char *)malloc(BUFFER_SIZE + 1);
@@ -53,7 +52,15 @@ char	*read_till_newline(int fd, char **remainder)
 		}
 		line = process_remainder(remainder);
 	}
-	while ((bytes_read = read(fd, buffer, BUFFER_SIZE)) > 0)
+	return (read_till_newline2(fd, buffer, line, remainder));
+}
+
+char	*read_till_newline2(int fd, char *buffer, char *line, char **remainder)
+{
+	ssize_t	bytes_read;
+
+	bytes_read = read(fd, buffer, BUFFER_SIZE);
+	while (bytes_read > 0)
 	{
 		buffer[bytes_read] = '\0';
 		line = extract_line(buffer, line);
@@ -62,34 +69,17 @@ char	*read_till_newline(int fd, char **remainder)
 			*remainder = get_remainder(buffer);
 			break ;
 		}
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
 	}
 	free(buffer);
 	if (bytes_read == -1)
 		return (NULL);
-	if (bytes_read == 0)
+	if (bytes_read == 0 && line && *line == '\0')
 	{
-		if (line && *line == '\0')
-		{
-			free(line);
-			return (NULL);
-		}
+		free(line);
+		return (NULL);
 	}
 	return (line);
-}
-
-char	*get_remainder(char *buffer)
-{
-	char	*newline_pos;
-	char	*rest;
-
-	newline_pos = ft_strchr(buffer, '\n');
-	rest = NULL;
-	if (newline_pos)
-	{
-		rest = ft_strdup(newline_pos + 1);
-		return (rest);
-	}
-	return (NULL);
 }
 
 char	*extract_line(char *buffer, char *line)

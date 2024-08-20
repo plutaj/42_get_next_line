@@ -6,7 +6,7 @@
 /*   By: jpluta <jpluta@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 15:23:43 by jpluta            #+#    #+#             */
-/*   Updated: 2024/08/20 18:33:52 by jpluta           ###   ########.fr       */
+/*   Updated: 2024/08/20 18:49:38 by jpluta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,20 @@ char	*ft_strchr(const char *s, int c)
 	}
 	if (a == '\0')
 		return ((char *)&s[i]);
+	return (NULL);
+}
+
+char	*get_remainder(char *buffer)
+{
+	char	*newline_pos;
+	char	*rest;
+
+	newline_pos = ft_strchr(buffer, '\n');
+	rest = NULL;
+	if (newline_pos)
+	{
+		rest = ft_strdup(newline_pos + 1);
+		return (rest);
+	}
 	return (NULL);
 }
